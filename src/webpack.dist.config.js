@@ -3,6 +3,11 @@ require('babel-register');
 import webpack from 'webpack';
 import deepAssign from 'deep-assign';
 import unique from './utils/unique';
+import ExtractTextPlugin from "extract-text-webpack-plugin";
+const extractSass = new ExtractTextPlugin({
+  filename: "[name].[contenthash].css",
+  disable: process.env.NODE_ENV === "development"
+});
 
 import gulpOptionsBuilder from './gulp-options-builder';
 const options = gulpOptionsBuilder();
