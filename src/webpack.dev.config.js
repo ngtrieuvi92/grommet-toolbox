@@ -5,6 +5,8 @@ import deepAssign from 'deep-assign';
 import unique from './utils/unique';
 
 import gulpOptionsBuilder from './gulp-options-builder';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+
 const options = gulpOptionsBuilder();
 
 const env = deepAssign({}, options.env, {
@@ -48,7 +50,8 @@ config.module.loaders = config.module.loaders.map(entry => {
 
 config.plugins = [
   new webpack.HotModuleReplacementPlugin(),
-  new webpack.DefinePlugin(env)
+  new webpack.DefinePlugin(env),
+  new BundleAnalyzerPlugin()
 ];
 
 if (options.webpack.plugins) {
