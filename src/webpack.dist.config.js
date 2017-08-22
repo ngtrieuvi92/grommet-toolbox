@@ -17,17 +17,22 @@ const config = {...options.webpack};
 
 config.plugins = [
   new webpack.DefinePlugin(env),
+  new webpack.optimize.UglifyJsPlugin({
+    compress:{
+      warnings: false
+    }
+  }),
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
 ];
 
-if (options.argv.minify) {
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    }
-  }));
-}
+// if (options.argv.minify) {
+//   config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+//     compress: {
+//       warnings: false
+//     }
+//   }));
+// }
 
 if (options.webpack.plugins) {
   options.webpack.plugins.forEach((plugin) =>
