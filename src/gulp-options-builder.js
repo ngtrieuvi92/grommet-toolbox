@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import deepAssign from 'deep-assign';
 import yargs from 'yargs';
+import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 const argv = yargs
   .option('minify', {
@@ -62,16 +63,23 @@ export function getOptions (opts) {
 
     const scssLoader = options.scssLoader || {
       test: /\.scss$/,
-      loader: 'style!css!sass?outputStyle=compressed&' +
-        'includePaths[]=' +
-        (encodeURIComponent(
-          path.resolve(options.base || process.cwd(), './node_modules')
-        )) +
-        '&includePaths[]=' +
-        (encodeURIComponent(
-          path.resolve(options.base || process.cwd(),
-          './node_modules/grommet/node_modules'))
-        )
+      use: [{
+        loader: "style-loader"
+      }, 
+      {
+        loader: "css-loader"
+      },
+      {
+        loader: "sass-loader",
+        options: {
+          includePaths: [(encodeURIComponent(
+            path.resolve(options.base || process.cwd(), './node_modules')
+          )), (encodeURIComponent(
+            path.resolve(options.base || process.cwd(),
+            './node_modules/grommet/node_modules'))
+          )]
+        }
+      }]
     };
 
     options.webpack = deepAssign({
@@ -117,7 +125,17 @@ export function getOptions (opts) {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader",
+            options: {
+              modules: true
+            }
+          }
+        ]
       }
     );
 
