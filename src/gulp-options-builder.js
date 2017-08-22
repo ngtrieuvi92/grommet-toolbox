@@ -77,7 +77,7 @@ export function getOptions (opts) {
     options.webpack = deepAssign({
       entry:{
         app:  options.webpack && options.webpack.entry ? options.webpack.entry : path.resolve(options.mainJs),
-        vendor: ['lodash',"logrocket", "raven-js", "logrocket-react"]
+        vendor: ['lodash']
       },
       output: {
         filename: 'index.js'

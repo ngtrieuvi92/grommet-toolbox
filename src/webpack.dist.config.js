@@ -18,7 +18,7 @@ const config = {...options.webpack};
 config.plugins = [
   new webpack.DefinePlugin(env),
   new webpack.optimize.OccurenceOrderPlugin(),
-  new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js")
+  new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
 ];
 
 if (options.argv.minify) {
