@@ -76,8 +76,7 @@ export function getOptions (opts) {
 
     options.webpack = deepAssign({
       entry:{
-        app:  options.webpack && options.webpack.entry ? options.webpack.entry : path.resolve(options.mainJs),
-        vendor: ['lodash']
+        app:  options.webpack && options.webpack.entry ? options.webpack.entry : path.resolve(options.mainJs)
       },
       output: {
         filename: 'index.js'
