@@ -29,7 +29,8 @@ config.plugins = [
     },
     comments: false
   }),
-  new webpack.optimize.DedupePlugin()
+  new webpack.optimize.DedupePlugin(),
+  extractSass
   // new webpack.optimize.OccurenceOrderPlugin()
   // new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
 ];

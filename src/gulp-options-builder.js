@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import deepAssign from 'deep-assign';
 import yargs from 'yargs';
+import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 const argv = yargs
   .option('minify', {
@@ -24,6 +25,12 @@ delete argv.$0;
 const deprecated = (name, warning) => {
   console.warn(`[grommet-toolbox] DEPRECATED: ${name}. ${warning}`);
 };
+
+const extractSass = new ExtractTextPlugin({
+  filename: "[name].[contenthash].css",
+  disable: process.env.NODE_ENV === "development"
+});
+
 
 let options;
 export function getOptions (opts) {
@@ -62,23 +69,40 @@ export function getOptions (opts) {
 
     const scssLoader = options.scssLoader || {
       test: /\.scss$/,
-      use: [{
-        loader: "style-loader"
-      }, 
-      {
-        loader: "css-loader"
-      },
-      {
-        loader: "sass-loader",
-        options: {
-          includePaths: [(encodeURIComponent(
-            path.resolve(options.base || process.cwd(), './node_modules')
-          )), (encodeURIComponent(
-            path.resolve(options.base || process.cwd(),
-            './node_modules/grommet/node_modules'))
-          )]
-        }
-      }]
+      // use: [{
+      //   loader: "style-loader"
+      // }, 
+      // {
+      //   loader: "css-loader"
+      // },
+      // {
+      //   loader: "sass-loader",
+      //   options: {
+      //     includePaths: [(encodeURIComponent(
+      //       path.resolve(options.base || process.cwd(), './node_modules')
+      //     )), (encodeURIComponent(
+      //       path.resolve(options.base || process.cwd(),
+      //       './node_modules/grommet/node_modules'))
+      //     )]
+      //   }
+      // }]
+      use: extractSass.extract({
+        use: [{
+          loader: "css-loader"
+        }, {
+          loader: "sass-loader",
+          options: {
+            includePaths: [(encodeURIComponent(
+              path.resolve(options.base || process.cwd(), './node_modules')
+            )), (encodeURIComponent(
+              path.resolve(options.base || process.cwd(),
+              './node_modules/grommet/node_modules'))
+            )]
+          }
+        }],
+        // use style-loader in development
+        fallback: "style-loader"
+      })
     };
 
     options.webpack = deepAssign({
