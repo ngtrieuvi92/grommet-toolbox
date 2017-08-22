@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs';
 import deepAssign from 'deep-assign';
 import yargs from 'yargs';
-import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 const argv = yargs
   .option('minify', {
