@@ -82,17 +82,17 @@ export function getOptions (opts) {
         filename: 'index.js'
       },
       resolve: {
-        root: [
+        modules: [
           path.resolve(process.cwd(), 'node_modules')
         ]
       },
       module: {
-        loaders: []
+        rules: []
       },
       resolveLoader: {}
     }, options.webpack);
 
-    options.webpack.module.loaders = options.webpack.module.loaders.concat(
+    options.webpack.module.rules = options.webpack.module.rules.concat(
       jsLoader,
       scssLoader,
       {
